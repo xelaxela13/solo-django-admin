@@ -10,7 +10,6 @@ services:
     env_file:
       - .env
     command: sh ./start.sh
-#    command: tail -f > /dev/null
     ports:
       - "8888:8000"
     depends_on:
