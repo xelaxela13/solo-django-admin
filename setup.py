@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name="solo_django_admin",
-    version="0.1.2",
+    version="0.1.5",
     description="Django admin for non Django ORM",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",

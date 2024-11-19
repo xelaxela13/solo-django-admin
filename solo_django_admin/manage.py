@@ -12,9 +12,9 @@ ENV_PREFIX = os.getenv('ENV_PREFIX', 'DJANGO_ADMIN')
 
 def main():
     """Run administrative tasks."""
-    os.environ.setdefault(f'DJANGO_SETTINGS_MODULE',
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE',
                           os.getenv(f"{ENV_PREFIX}_DJANGO_SETTINGS_MODULE",
-                                    'core.settings'))
+                                    'solo_django_admin.core.settings'))
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:

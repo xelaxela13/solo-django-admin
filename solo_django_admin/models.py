@@ -182,6 +182,7 @@ class MapperMeta(models.base.ModelBase):
                     )
                     if exist_param is not None:
                         exists_params[param] = exist_param
+                exists_params = cls.clear_params(exists_params)
                 attrs[field_name] = field_class(**exists_params)
 
         new_class = super().__new__(cls, name, bases, attrs)
@@ -192,6 +193,23 @@ class MapperMeta(models.base.ModelBase):
         if not hasattr(new_class, 'id'):
             new_class.add_to_class('id', models.AutoField())
         return new_class
+
+    @classmethod
+    def clear_params(
+            cls,
+            exists_params: dict
+    ) -> Dict[str, Any]:
+        mutually_exclusive_params = ('auto_now_add', 'auto_now', 'default')
+        active_param = next(
+            (key for key in mutually_exclusive_params if exists_params.get(key)),
+            None
+        )
+        if active_param:
+            exists_params = {
+                key: value for key, value in exists_params.items()
+                if key == active_param or key not in mutually_exclusive_params
+            }
+        return exists_params
 
     @classmethod
     def get_db_table_name(
