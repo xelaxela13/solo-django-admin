@@ -1,0 +1,34 @@
+services:
+  app:
+    restart: always
+    container_name: app-example
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    volumes:
+      - .:/project
+    env_file:
+      - .env
+    command: sh ./start.sh
+#    command: tail -f > /dev/null
+    ports:
+      - "8888:8000"
+    depends_on:
+      - postgres
+  postgres:
+    image: postgres:15.0
+    container_name: db-example
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "54329:5432"
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data: {}
